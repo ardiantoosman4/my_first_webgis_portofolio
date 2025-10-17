@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}Home - WebGIS{% endblock %}
+
+{% block content %}
+<div style="position: absolute; top: 56px; left: 0; width: 300px; height: calc(100vh - 56px); background: white; padding: 15px; overflow-y: hidden; z-index: 1000; box-shadow: 2px 0 5px rgba(0,0,0,0.3);">
+    <h5 class="fw-bold mb-4">Filter Earthquakes</h5>
+    <hr class="my-2">
+    <form method="POST" action="/project1">
+      <div class="d-flex flex-column">
+        <div class="fw-bold small">Latitude</div>
+        <div class="d-flex gap-2 small align-items-center">
+          <div class="small">Min :</div>
+          <div class="flex-grow-1">
+            <input class="form-control form-control-sm" name="min_lat" type="number" step="0.01"
+               value="{{ filters.min_lat }}" min="{{ ranges.min_lat }}" max="{{ ranges.max_lat }}">
+          </div>
+        </div>
+        <div class="d-flex gap-2 small align-items-center">
+          <div class="small">Max :</div>
+          <div class="flex-grow-1">
+            <input class="form-control form-control-sm" name="max_lat" type="number" step="0.01"
+               value="{{ filters.max_lat }}" min="{{ ranges.min_lat }}" max="{{ ranges.max_lat }}">
+          </div>
+        </div>
+      </div>
+      <hr class="my-2">
+      <div class="d-flex flex-column">
+        <div class="fw-bold small">Longitude</div>
+        <div class="d-flex gap-2 small align-items-center">
+          <div class="small">Min :</div>
+          <div class="flex-grow-1">
+            <input class="form-control form-control-sm" name="min_lon" type="number" step="0.01"
+               value="{{ filters.min_lon }}" min="{{ ranges.min_lon }}" max="{{ ranges.max_lon }}">
+          </div>
+        </div>
+        <div class="d-flex gap-2 small align-items-center">
+          <div class="small">Max :</div>
+          <div class="flex-grow-1">
+            <input class="form-control form-control-sm" name="max_lon" type="number" step="0.01"
+               value="{{ filters.max_lon }}" min="{{ ranges.min_lon }}" max="{{ ranges.max_lon }}">
+          </div>
+        </div>
+      </div>
+      <hr class="my-2">
+      <div class="d-flex flex-column">
+        <div class="fw-bold small">Depth</div>
+        <div class="d-flex gap-2 small align-items-center">
+          <div class="small">Min :</div>
+          <div class="flex-grow-1">
+            <input class="form-control form-control-sm" name="min_depth" type="number" step="0.01"
+                   value="{{ filters.min_depth }}" min="{{ ranges.min_depth }}" max="{{ ranges.max_depth }}">
+          </div>
+        </div>
+        <div class="d-flex gap-2 small align-items-center">
+          <div class="small">Max :</div>
+          <div class="flex-grow-1">
+            <input class="form-control form-control-sm" name="max_depth" type="number" step="0.01"
+                   value="{{ filters.max_depth }}" min="{{ ranges.min_depth }}" max="{{ ranges.max_depth }}">
+          </div>
+        </div>
+      </div>
+      <hr class="my-2">
+      <div class="d-flex flex-column">
+        <div class="fw-bold small">Minimum Magnitude</div>
+        <select class="form-select form-select-sm" name="min_mag">
+          {% for mag in range(ranges.min_mag|int, (ranges.max_mag|int)+1) %}
+            <option value="{{ mag }}" {% if mag == filters.min_mag %}selected{% endif %}>{{ mag }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <hr class="my-2">
+      <button class="btn btn-primary w-100 btn-sm small mt-2 fw-bold" type="submit">Apply Filter</button>
+      <a href="/project1" class="btn btn-secondary w-100 mt-2 btn-sm small fw-bold">Reset</a>
+    </form>
+    <img src="{{ url_for('static', filename='colormap_legend.png') }}" class="img-fluid mt-4">
+  </div>
+
+  <div class="map-container" style="margin-left:300px; height: calc(100vh - 56px); overflow: hidden;">
+    {{ map_html | safe }}
+  </div>
+</div>
+{% endblock %}

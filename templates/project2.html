@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block title %}Home - WebGIS{% endblock %}
+
+{% block content %}
+<div class="map-container">
+    {{ map_html | safe }}
+</div>
+{% endblock %}
